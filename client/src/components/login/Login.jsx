@@ -42,7 +42,7 @@ function Login() {
 
         if (res.status === 200) {
           setImages(res.data.images);
-          setImageCaption(res.data.caption)
+          // setImageCaption(res.data.caption)
           setRoundNumber((prev) => prev + 1);
         }
       } catch (err) {
@@ -68,7 +68,7 @@ function Login() {
         );
 
         if (res.status === 200) {
-          setImageCaption(res.data.caption);
+          // setImageCaption(res.data.caption);
           setImages(res.data.images);
           setRoundNumber((prev) => prev + 1);
         }
@@ -79,7 +79,7 @@ function Login() {
 
     // last round
     else if (roundNumber === NUM_ROUNDS) {
-      console.log("last r");
+      console.log("last round");
       const hashes = [];
       console.log(sequences.current.length);
       sequences.current.map((imageSelection) => {
@@ -131,7 +131,7 @@ function Login() {
             progress: undefined,
           });
           setRoundNumber(0);
-          setIsHuman(false);
+          // setIsHuman(false);
           setImages([]);
           sequences.current = [];
         } else {
@@ -162,7 +162,7 @@ function Login() {
 
   return (
     <div>
-      <Canvas
+      {/* <Canvas
         modalIsOpen={showCaptcha}
         setIsOpen={setShowCaptcha}
         onResult={(captchaResult) => {
@@ -182,7 +182,7 @@ function Login() {
           }
           setShowCaptcha(false);
         }}
-      />
+      /> */}
       <div className="m-8 font-light flex justify-center text-center">
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-xs">
           <div className="mb-4">
@@ -205,9 +205,10 @@ function Login() {
               className="bg-blue-500 hover:bg-blue-700 text-white font-light py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
               onClick={() => {
-                if (roundNumber === 0 && !isHuman) {
-                  setShowCaptcha(true);
-                }
+                handleSubmit()
+                // if (roundNumber === 0) {
+                //   // setShowCaptcha(true);
+                // }
               }}
             >
               Login

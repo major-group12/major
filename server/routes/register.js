@@ -30,6 +30,8 @@ module.exports = (unsplash) => {
   */
   router.post("/", (req, res) => {
     const userData = req.body;
+    // console.log(userData)
+    // return
     User.findOne({ email: userData.email })
       .then((user) => {
         if (user) {
@@ -60,13 +62,13 @@ module.exports = (unsplash) => {
                 email: userData.email,
                 firstSet: imageLinks,
                 images: userData.images.slice(1, userData.images.length),
-                captions: userData.captions,
+                // captions: userData.captions,
                 passwordHash: userData.passwordHash,
               });
               newUser
                 .save()
                 .then(() => {
-                  console.log(userData.captions);
+                  // console.log(userData.captions);
                   console.log("new user saved");
                   return res.status(200).json({ msg: "registeration successful" });
                 })

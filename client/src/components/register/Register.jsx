@@ -5,8 +5,7 @@ import CryptoJS from "crypto-js";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { navigate } from "@reach/router";
-import Canvas from "../canvas/Canvas";
-import imageCaption from "./Story";
+
 
 const unsplash = createApi({
   accessKey: process.env.REACT_APP_UNSPLASH_ACCESS_KEY,
@@ -34,8 +33,6 @@ function Register() {
   const [sequences, setSequences] = useState([]);
   const [roundNumber, setRoundNumber] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [showCaptcha, setShowCaptcha] = useState(false);
-  const [isHuman, setIsHuman] = useState(false);
 
   const getImages = async () => {
     if (category.trim() === "") {
@@ -98,9 +95,10 @@ function Register() {
       },
     ]);
     setRoundNumber((prev) => prev + 1);
-    setCategory("");
-    setRawImages([]);
-    setThumbnails([]);
+    getImages();
+    // setCategory("");
+    // setRawImages([]);
+    // setThumbnails([]);
   };
 
   const register = async () => {
@@ -118,7 +116,7 @@ function Register() {
     const hashes = [];
     let captions = [];
     sequences.map((imageSelection) => {
-      captions.push(imageCaption(imageSelection.image));
+      // captions.push(imageCaption(imageSelection.image));
       hashes.push(hashImage(imageSelection.image, imageSelection.tileSequence));
     });
 
@@ -140,12 +138,12 @@ function Register() {
       );
 
       try {
-        const res = await axios.post("/register", {
+        const res = await axios.post("http://localhost:4000/api/register", {
           name,
           email,
           passwordHash,
           images: [sequences[0].image, ...encryptedImages],
-          captions : captionList,
+          // captions : captionList,
         });
 
         if (res.status === 200) {
@@ -192,7 +190,7 @@ function Register() {
 
   return (
     <Fragment>
-      <Canvas
+      {/* <Canvas
         modalIsOpen={showCaptcha}
         setIsOpen={setShowCaptcha}
         onResult={(captchaResult) => {
@@ -212,7 +210,7 @@ function Register() {
           }
           setShowCaptcha(false);
         }}
-      />
+      /> */}
       <div className="mx-auto my-2 font-light flex justify-center text-center">
         <form className="bg-white pt-6 w-2/3 flex md:flex-row flex-col justify-center">
           <div className="mb-4 mr-2">
@@ -261,11 +259,12 @@ function Register() {
               className="mx-2 btn btn-sm btn-secondary py-2 px-4"
               type="button"
               onClick={() => {
-                if (roundNumber === 0 && !isHuman) {
-                  setShowCaptcha(true);
-                } else {
-                  getImages();
-                }
+                getImages();
+                // if (roundNumber === 0 && !isHuman) {
+                //   setShowCaptcha(true);
+                // } else {
+                //   getImages();
+                // }
               }}
             >
               Search
@@ -282,6 +281,7 @@ function Register() {
         </div>
       ) : (
         <ImageGrid
+          getImages = {getImages}
           imageURLs={rawImages}
           thumbnails={thumbnails}
           addImageAndTileSequence={addImageAndTileSequence}

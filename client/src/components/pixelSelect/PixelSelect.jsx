@@ -18,14 +18,9 @@ function PixelSelect({
       selectedTiles.current.includes(selectedTileId) ||
       selectedTiles.current.length >= numTiles
     ) {
-      // selectedTile.classList.remove("border-2")
-      // selectedTile.classList.remove("border-red-500");
-      // selectedTiles.current = selectedTiles.current.filter(id => id !== selectedTileId);
-
-      // Don't allow deselect, it messes up the sequence
       return;
     } else {
-      selectedTile.classList.add("border-2");
+      selectedTile.classList.add("border-4");
       selectedTile.classList.add("border-red-500");
       selectedTiles.current.push(selectedTileId);
     }
@@ -47,7 +42,7 @@ function PixelSelect({
           canvas.height = tileDimension;
           canvas.id = `${row}_${col}`;
           canvas.addEventListener("click", handleTileClick);
-          const ctx = canvas.getContext("2d");
+          const ctx = canvas.getContext("2d");  
 
           ctx.drawImage(image, x, y, 100, 100, 0, 0, 100, 100);
           console.log(row, col);
@@ -67,8 +62,6 @@ function PixelSelect({
         id="selection-grid"
         className="grid grid-cols-5 gap-x-0 gap-y-2 w-96 mx-auto"
       ></div>
-
-      {/* btn-disabled is not working, but it's handled in submitSequence */}
       <button
         className={`btn w-1/4 my-4 mx-auto ${
           selectedTiles.length === numTiles ? "btn-disabled" : ""
